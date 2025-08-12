@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3.5cm, minimum height=1cm, text centered, draw=black, fill=red!30]
+\tikzstyle{process} = [rectangle, minimum width=3.5cm, minimum height=1cm, text centered, draw=black, fill=blue!20]
+\tikzstyle{database} = [cylinder, shape aspect=0.3, minimum height=1cm, minimum width=2.5cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[node distance=2cm]
+
+% Nodes
+\node (start) [startstop] {System Start};
+\node (browse) [process, below of=start] {User Browses Restaurants};
+\node (menuquery) [process, below of=browse] {Query Menu from DB};
+\node (menudb) [database, right of=menuquery, xshift=4cm] {Menu DB};
+\node (select) [process, below of=menuquery] {Select Items \& Place Order};
+\node (orderdb) [database, right of=select, xshift=4cm] {Order DB};
+\node (payment) [process, below of=select] {Process Payment};
+\node (paymentdb) [database, right of=payment, xshift=4cm] {Payment DB};
+\node (delivery) [process, below of=payment] {Assign Delivery Agent};
+\node (deliverydb) [database, right of=delivery, xshift=4cm] {Delivery DB};
+\node (track) [process, below of=delivery] {Track Delivery Status};
+\node (stop) [startstop, below of=track] {System End};
+
+% Arrows
+\draw [arrow] (start) --> (browse);
+\draw [arrow] (browse) --> (menuquery);
+\draw [arrow] (menuquery) -- (menudb);
+\draw [arrow] (menuquery) --> (select);
+\draw [arrow] (select) -- (orderdb);
+\draw [arrow] (select) --> (payment);
+\draw [arrow] (payment) -- (paymentdb);
+\draw [arrow] (payment) --> (delivery);
+\draw [arrow] (delivery) -- (deliverydb);
+\draw [arrow] (delivery) --> (track);
+\draw [arrow] (track) --> (stop);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}
